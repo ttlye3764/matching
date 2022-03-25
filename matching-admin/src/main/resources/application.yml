@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://112.220.19.35:15432/matching
+    username: matching
+    password: Matching153!%#
+  jpa:
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQL10Dialect
+      ddl-auto: update
+      format_sql: true
+      show-sql: true

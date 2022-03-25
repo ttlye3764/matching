@@ -1,0 +1,86 @@
+
+// 빌드 시
+buildscript {
+    ext {
+        springBootVersion = '2.6.5'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.4.RELEASE"
+    }
+}
+
+subprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    group = 'com.matching'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '11'
+    targetCompatibility = '11'
+    compileJava.options.encoding = 'UTF-8'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        compileOnly 'org.projectlombok:lombok'
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        annotationProcessor 'org.projectlombok:lombok'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+        implementation group: 'org.postgresql', name:'postgresql', version:'42.2.19'
+    }
+}
+
+project(':matching-core') {
+    // core 에서는 bootjar로 패키징 할 필요가 없으므로 추가
+    bootJar.enabled = false
+    jar.enabled = true
+
+    dependencies {
+    }
+}
+
+project(':matching-biz') {
+    // core 에서는 bootjar로 패키징 할 필요가 없으므로 추가
+    bootJar.enabled = false
+    jar.enabled = true
+
+    dependencies {
+    }
+}
+
+project(':matching-api') {
+
+    dependencies {
+        compileOnly project(':matching-biz')
+        compileOnly project(':matching-core')
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+        implementation('org.springframework.boot:spring-boot-starter-jdbc')
+        implementation('org.springframework.data:spring-data-jdbc')
+    }
+}
+
+project(':matching-admin') {
+    dependencies {
+        compileOnly project(':matching-biz')
+        compileOnly project(':matching-core')
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+        implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+        implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+        implementation('org.springframework.boot:spring-boot-starter-jdbc')
+        implementation('org.springframework.data:spring-data-jdbc')
+    }
+}

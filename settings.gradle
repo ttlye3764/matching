@@ -1,0 +1,6 @@
+rootProject.name = 'matching'
+include 'matching-core'
+include 'matching-biz'
+include 'matching-api'
+include 'matching-admin'
+

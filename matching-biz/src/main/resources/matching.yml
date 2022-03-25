@@ -1,0 +1,22 @@
+spring:
+  config:
+    activate:
+      on-profile:
+        - local
+matching:
+
+---
+spring:
+  config:
+    activate:
+      on-profile:
+        - dev
+matching:
+
+---
+spring:
+  config:
+    activate:
+      on-profile:
+        - prod
+matching:
